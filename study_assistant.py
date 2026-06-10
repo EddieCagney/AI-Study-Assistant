@@ -3093,14 +3093,14 @@ def run_supervisor_turn(
         chunks = search_chunks(prompt, conn, config, top_n=15)
         if chunks:
             context_blocks = []
-            for chunk_text_val, source_doc_val, _score in chunks[:10]:
+            for chunk_text_val, source_doc_val, _score in chunks[:5]:
                 context_blocks.append(f"[Source: {source_doc_val}]\n{chunk_text_val}")
             context_text = "\n\n---\n\n".join(context_blocks)
 
             # Add calendar events if available
             cal_section = ""
             if calendar_events:
-                cal_lines = [format_calendar_event_line(e) for e in calendar_events[:20]]
+                cal_lines = [format_calendar_event_line(e) for e in calendar_events[:10]]
                 cal_section = (
                     f"\n\nGoogle Calendar events (next 14 days):\n"
                     + "\n".join(cal_lines)
@@ -3119,7 +3119,7 @@ def run_supervisor_turn(
         else:
             cal_section = ""
             if calendar_events:
-                cal_lines = [format_calendar_event_line(e) for e in calendar_events[:20]]
+                cal_lines = [format_calendar_event_line(e) for e in calendar_events[:10]]
                 cal_section = (
                     f"\n\nGoogle Calendar events (next 14 days):\n"
                     + "\n".join(cal_lines)
@@ -3134,7 +3134,7 @@ def run_supervisor_turn(
     except Exception:
         cal_fallback = ""
         if calendar_events:
-            cal_lines = [format_calendar_event_line(e) for e in calendar_events[:20]]
+            cal_lines = [format_calendar_event_line(e) for e in calendar_events[:10]]
             cal_fallback = "\n\nGoogle Calendar events:\n" + "\n".join(cal_lines)
         augmented_prompt = (
             f"Today's date is {current_weekday}, {current_date_str}.\n\n"
@@ -3149,31 +3149,23 @@ def run_supervisor_turn(
 
     # System prompt with strict accuracy requirements.
     system_prompt = [{"text": (
-        "You are an expert AI study assistant. You help students learn and manage their time.\n\n"
-        "You have access to two types of information:\n"
+        "You are an AI study assistant. Help students learn from their course materials and manage their study schedule.\n\n"
+        "You have access to:\n"
         "1. Course material excerpts from uploaded documents\n"
         "2. Google Calendar events (if connected)\n\n"
-        "Rules for course material:\n"
-        "- Quote exact wording from excerpts when explaining concepts\n"
-        "- Cite which document a concept comes from\n"
-        "- If a concept is not in the excerpts, say so clearly\n"
-        "- For quizzes: base every question on a specific excerpt\n"
-        "- For study plans: cover ALL topics found across ALL excerpts\n\n"
-        "Rules for calendar:\n"
-        f"- Today's date is {current_weekday}, {current_date_str}; use that exact date for all planning and date questions\n"
-        "- The Google Calendar events provided ARE the user's personal calendar — treat them as such\n"
-        "- If calendar events are provided in the message, you CAN and SHOULD display and discuss them\n"
-        "- If the user asks to see their calendar, list ALL the events from the provided calendar data with their times in AM/PM format\n"
-        "- If you suggest study sessions from calendar gaps, propose realistic focused sessions that are usually 1-2 hours long rather than using the entire free window\n"
-        "- When turning gaps into a study plan, use the course material topics as the session content and keep each session specific and manageable\n"
-        "- For study-plan requests, use calendar events only to avoid conflicts; do NOT treat existing calendar events as the answer unless the user explicitly asks to review what is already scheduled\n"
-        "- For study-plan requests, output each session on its own line in this exact format: 'Month Day: Topic (X hours)' — for example: 'June 10: Fixed Size Chunking (1.5 hours)'. Always include the hours in parentheses. Do not use clock times unless the user explicitly asks for them.\n"
-        "- Never propose study sessions outside the user's preferred daytime scheduling window when a planner import will handle slotting later\n"
-        "- NEVER claim that you already added, created, or scheduled Google Calendar events unless a tool result explicitly confirms it\n"
-        "- If the user asks to CREATE, ADD, or SCHEDULE calendar events, explain that chat suggests sessions but the actual calendar creation is done with the app's Add to Google Calendar controls\n"
-        "- NEVER say you don't have access to the calendar if calendar events are provided in the message\n"
-        "- If no calendar events are in the message, explain the calendar is not connected\n\n"
-        "Be encouraging, accurate, and helpful."
+        "Course material rules:\n"
+        "- Base answers on the provided excerpts. Cite which document each concept comes from.\n"
+        "- If a concept is not in the excerpts, say so.\n"
+        "- For quizzes, base every question on a specific excerpt.\n\n"
+        "Study plan rules:\n"
+        f"- Today is {current_weekday}, {current_date_str}.\n"
+        "- Output each study session on its own line in this exact format: 'Month Day: Topic (X hours)' — e.g. 'June 10: Fixed Size Chunking (1.5 hours)'. Always include hours in parentheses.\n"
+        "- Use calendar events only to avoid conflicts. Do not include clock times unless asked.\n\n"
+        "Calendar rules:\n"
+        "- If calendar events are in the message, treat them as the user's real calendar.\n"
+        "- NEVER claim you added or scheduled calendar events unless a tool result confirms it.\n"
+        "- If asked to create/add/schedule events, explain that actual calendar creation is done via the app's Add to Google Calendar controls.\n\n"
+        "Be concise, accurate, and encouraging."
     )}]
 
     # Step 4: Agentic loop.

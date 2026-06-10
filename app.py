@@ -50,11 +50,9 @@ st.set_page_config(
 # =============================================================================
 if "config" not in st.session_state:
     st.session_state.config = Config()
-# If a stale session cached an old model ID, replace it with the correct default.
-elif st.session_state.config.model_id in {
-    "anthropic.claude-3-haiku-20240307-v1:0",
-    "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
-}:
+# If a stale session cached a different model ID than what the code currently
+# defaults to, replace it so the app always uses the configured default.
+elif st.session_state.config.model_id != Config().model_id:
     st.session_state.config = Config()
 if "conn" not in st.session_state:
     st.session_state.conn = init_vector_store(st.session_state.config.vector_store_path)
