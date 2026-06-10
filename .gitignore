@@ -1,0 +1,31 @@
+# === Secrets — NEVER commit these ===
+.env
+*.env
+google_auth/credentials.json
+google_auth/token.json
+
+# === Local database (contains personal document embeddings) ===
+study_assistant.db
+
+# === Python ===
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+env/
+
+# === Testing / hypothesis ===
+.pytest_cache/
+.hypothesis/
+pytest-cache-files-*/
+htmlcov/
+.coverage
+
+# === OS ===
+.DS_Store
+Thumbs.db

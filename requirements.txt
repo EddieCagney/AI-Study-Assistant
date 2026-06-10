@@ -1,0 +1,17 @@
+# AI Study Assistant — runtime dependencies
+#
+# Core
+boto3==1.42.89
+numpy==2.3.3
+PyPDF2==3.0.1
+streamlit==1.57.0
+
+# Google Calendar integration
+google-api-python-client==2.196.0
+google-auth==2.53.0
+google-auth-httplib2==0.4.0
+google-auth-oauthlib==1.4.0
+
+# Development / testing (not required at runtime)
+pytest==9.0.3
+hypothesis==6.152.6
