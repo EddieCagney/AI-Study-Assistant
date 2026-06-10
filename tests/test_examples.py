@@ -311,7 +311,7 @@ class TestEnvironmentVariableConfiguration(unittest.TestCase):
 
         try:
             config = Config()
-            self.assertEqual(config.region, "us-east-1")
+            self.assertEqual(config.region, "us-west-2")
             self.assertEqual(
                 config.model_id, "anthropic.claude-3-5-haiku-20241022-v1:0"
             )

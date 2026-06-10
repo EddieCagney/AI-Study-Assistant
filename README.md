@@ -85,7 +85,7 @@ The first time you connect the calendar in the app, a browser window will open f
 
 | Variable | Default | Description |
 |---|---|---|
-| `AWS_REGION` | `us-east-1` | AWS region for Bedrock API calls |
+| `AWS_REGION` | `us-west-2` | AWS region for Bedrock API calls |
 | `STUDY_ASSISTANT_MODEL_ID` | `anthropic.claude-3-5-haiku-20241022-v1:0` | Bedrock model ID |
 | `VECTOR_STORE_PATH` | `study_assistant.db` | Path to the SQLite vector store |
 

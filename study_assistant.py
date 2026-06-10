@@ -61,7 +61,7 @@ class Config:
 
     # AWS region used for all Bedrock API calls.
     region: str = field(
-        default_factory=lambda: os.environ.get("AWS_REGION", "us-east-1")
+        default_factory=lambda: os.environ.get("AWS_REGION", "us-west-2")
     )
 
     # Bedrock model ID for the supervisor agent and history summarizer.
