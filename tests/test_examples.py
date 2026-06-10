@@ -8,7 +8,7 @@ Tests cover:
   4. Debug flag — request payload printed when --debug is set
   5. Environment variable configuration — AWS_REGION, STUDY_ASSISTANT_MODEL_ID,
      VECTOR_STORE_PATH read correctly
-  6. Model ID constant — supervisor uses us.anthropic.claude-sonnet-4-5-20250929-v1:0
+  6. Model ID constant — supervisor uses anthropic.claude-3-5-haiku-20241022-v1:0
   7. Fallback message — exact fallback when no positive z-score chunks exist
 
 Requirements: 1.3, 1.5, 2.4, 5.2, 5.5, 8.1, 8.2, 8.3, 8.4
@@ -313,7 +313,7 @@ class TestEnvironmentVariableConfiguration(unittest.TestCase):
             config = Config()
             self.assertEqual(config.region, "us-east-1")
             self.assertEqual(
-                config.model_id, "us.anthropic.claude-sonnet-4-5-20250929-v1:0"
+                config.model_id, "anthropic.claude-3-5-haiku-20241022-v1:0"
             )
             self.assertEqual(config.vector_store_path, "study_assistant.db")
         finally:
@@ -328,9 +328,9 @@ class TestEnvironmentVariableConfiguration(unittest.TestCase):
 # ===========================================================================
 
 class TestModelIDConstant(unittest.TestCase):
-    """Verify supervisor uses us.anthropic.claude-sonnet-4-5-20250929-v1:0."""
+    """Verify supervisor uses anthropic.claude-3-5-haiku-20241022-v1:0."""
 
-    EXPECTED_MODEL_ID = "us.anthropic.claude-sonnet-4-5-20250929-v1:0"
+    EXPECTED_MODEL_ID = "anthropic.claude-3-5-haiku-20241022-v1:0"
 
     def test_supervisor_model_id_constant(self):
         """SUPERVISOR_MODEL_ID should equal the expected cross-region inference profile."""

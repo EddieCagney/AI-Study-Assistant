@@ -65,12 +65,12 @@ class Config:
     )
 
     # Bedrock model ID for the supervisor agent and history summarizer.
-    # Uses Claude Sonnet 4.5 cross-region inference profile for reliable
-    # tool use support. Override with STUDY_ASSISTANT_MODEL_ID.
+    # Uses Claude 3.5 Haiku which supports tool use and runs in us-west-2
+    # without a cross-region inference profile. Override with STUDY_ASSISTANT_MODEL_ID.
     model_id: str = field(
         default_factory=lambda: os.environ.get(
             "STUDY_ASSISTANT_MODEL_ID",
-            "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+            "anthropic.claude-3-5-haiku-20241022-v1:0",
         )
     )
 
@@ -2036,10 +2036,10 @@ def run_qa_agent(question: str, conn: sqlite3.Connection, config: Config) -> dic
 # Session Memory — History Compression
 # =============================================================================
 
-# Model ID for the history summarizer (Claude Sonnet 4.5 cross-region profile).
+# Model ID for the history summarizer (Claude 3.5 Haiku).
 # Used by compress_history() to summarize the oldest 10 turns when the
 # conversation history exceeds 20 messages.
-SUPERVISOR_MODEL_ID = "us.anthropic.claude-sonnet-4-5-20250929-v1:0"
+SUPERVISOR_MODEL_ID = "anthropic.claude-3-5-haiku-20241022-v1:0"
 
 
 def compress_history(memory: SessionMemory, bedrock_client) -> SessionMemory:

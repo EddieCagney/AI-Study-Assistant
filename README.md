@@ -37,7 +37,7 @@ requirements.txt      # Python dependencies
 - Python 3.12+
 - An AWS account with Amazon Bedrock access in `us-east-1` (or your chosen region)
 - Model access enabled for:
-  - `us.anthropic.claude-sonnet-4-5-20250929-v1:0` (supervisor / chat)
+  - `anthropic.claude-3-5-haiku-20241022-v1:0` (supervisor / chat)
   - `amazon.titan-embed-text-v2:0` (embeddings)
 - A Google Cloud project with the Calendar API enabled and OAuth 2.0 credentials downloaded as `google_auth/credentials.json`
 
@@ -86,7 +86,7 @@ The first time you connect the calendar in the app, a browser window will open f
 | Variable | Default | Description |
 |---|---|---|
 | `AWS_REGION` | `us-east-1` | AWS region for Bedrock API calls |
-| `STUDY_ASSISTANT_MODEL_ID` | `us.anthropic.claude-sonnet-4-5-20250929-v1:0` | Bedrock model ID |
+| `STUDY_ASSISTANT_MODEL_ID` | `anthropic.claude-3-5-haiku-20241022-v1:0` | Bedrock model ID |
 | `VECTOR_STORE_PATH` | `study_assistant.db` | Path to the SQLite vector store |
 
 ---
